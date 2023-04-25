@@ -9,4 +9,13 @@ def scores():
     url = 'http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard'
     response = urlopen(url)
     data_json = json.loads(response.read())
-    return render_template('sportsScores.html', data=data_json)
+    formattedData = formatJsonMLB(data_json)
+    return render_template('sportsScores.html', data=formattedData)
+
+def formatJsonMLB(data_json):
+    data = []
+    for event in data_json['events']:
+        homeData = event['competitions'][0]['competitors'][0] if event['competitions'][0]['competitors'][0]['homeAway'] == 'home' else event['competitions'][0]['competitors'][1]
+        awayData = event['competitions'][0]['competitors'][0] if event['competitions'][0]['competitors'][0]['homeAway'] == 'away' else event['competitions'][0]['competitors'][1]
+        data.append({'homeData': homeData, 'awayData': awayData})
+    return data

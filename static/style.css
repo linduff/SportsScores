@@ -1,0 +1,8 @@
+.team-image{
+    height: 50px;
+    width: auto;
+}
+
+.card:hover{
+    background-color: #F9F9F9;
+}
