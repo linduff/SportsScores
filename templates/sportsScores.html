@@ -12,34 +12,34 @@
     <div class="container">
         <div class="row">
             {% for game in data %}
-            <div class="col-sm-6 col-lg-4">
+            <div class="col-sm-6 col-lg-4 mb-4">
                 <div class="card">
                     <div class="row g-0">
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-2">
-                                    <img src="{{game.awayData.team.logo}}" alt="" class="team-image mt-1 mb-1">
+                                    <img src="{{game.awayData.logo}}" alt="" class="team-image mt-1 mb-1">
                                 </div>
                                 <div class="col-md-10">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{game.awayData.team.name}}</h5>
+                                        <h5 class="card-title">{{game.awayData.teamName}}</h5>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2">
-                                    <img src="{{game.homeData.team.logo}}" alt="" class="team-image mt-1 mb-1">
+                                    <img src="{{game.homeData.logo}}" alt="" class="team-image mt-1 mb-1">
                                 </div>
                                 <div class="col-md-10">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{game.homeData.team.name}}</h5>
+                                        <h5 class="card-title">{{game.homeData.teamName}}</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card-body">
-                                <h5 class="card-title">TIME</h5>
+                                <h5 class="card-title">{{game.detail}}</h5>
                             </div>
                         </div>
                     </div>
