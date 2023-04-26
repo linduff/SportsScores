@@ -70,5 +70,5 @@ def getLineScore(teamData):
     linescore = ['-','-','-','-','-','-','-','-','-']
     if 'linescores' in teamData:
         for inning in range(len(teamData['linescores'])):
-            linescore[inning] = teamData['linescores'][inning]['value']
+            linescore[inning] = int(teamData['linescores'][inning]['value'])
     return linescore

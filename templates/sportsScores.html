@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{game.awayData.teamName}}</h5>
+                                        <h6 class="card-title">{{game.awayData.teamName}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{game.homeData.teamName}}</h5>
+                                        <h6 class="card-title">{{game.homeData.teamName}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -42,11 +42,11 @@
                         <div class="col-md-6">
                             {% if game.status == 'STATUS_SCHEDULED' %}
                             <div class="card-body">
-                                <h5 class="card-title">{{game.detail}}</h5>
+                                <h5 class="card-title  pt-4">{{game.detail}}</h5>
                             </div>
                             {% elif game.status == 'STATUS_IN_PROGRESS' %}
                             <div class="row">
-								<div class="col-md-6">{{game.detail.shortDetail}}</div>
+								<h5 class="col-md-6 pt-5">{{game.shortDetail}}</h5>
 								<div class="col-md-6">
 									<table class="table table-sm">
 										<thead>
@@ -73,7 +73,7 @@
 							</div>
                             {% elif game.status == 'STATUS_FINAL' %}
                             <div class="row">
-								<div class="col-md-6">{{game.detail}}</div>
+								<h5 class="col-md-6  pt-5">{{game.shortDetail}}</h5>
 								<div class="col-md-6">
 									<table class="table table-sm">
 										<thead>
@@ -109,7 +109,7 @@
 
         {% for game in data %}
         <!-- Modal -->
-		<div class="modal fade" id="gameDetailsModal{{game.id}}" tabindex="-1" aria-labelledby=modalLabel" aria-hidden="true">
+		<div class="modal fade" id="gameDetailsModal{{game.id}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -119,6 +119,11 @@
                             </div>
                         </div>
                         <div class="row">
+                            {% if game.status == 'STATUS_SCHEDULED' %}
+                            <div class="col-md-12 pt-5">
+                                <h5 class="text-center">{{game.detail}}</h5>
+                            </div>
+                            {% else %}
                             <div class="col-md-8">
                                 <table class="table table-sm">
                                     <thead>
@@ -165,6 +170,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
