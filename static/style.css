@@ -6,3 +6,9 @@
 .card:hover{
     background-color: #F9F9F9;
 }
+
+.table>thead>tr>th,
+.table>tbody>tr>td,
+.table>tbody>tr>th {
+  border-bottom: none;
+}

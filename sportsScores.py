@@ -34,7 +34,7 @@ def formatGameData(event):
             'logo': homeData['team']['logo'],
             'runs': homeData['score'],
             'hits': homeData['hits'],
-            'erors': homeData['errors'],
+            'errors': homeData['errors'],
             'linescore': getLineScore(homeData)
         },
         'awayData': {
@@ -45,7 +45,7 @@ def formatGameData(event):
             'logo': awayData['team']['logo'],
             'runs': awayData['score'],
             'hits': awayData['hits'],
-            'erors': awayData['errors'],
+            'errors': awayData['errors'],
             'linescore': getLineScore(awayData)
         }
     }
