@@ -23,6 +23,7 @@ def formatGameData(event):
     homeData = event['competitions'][0]['competitors'][0] if event['competitions'][0]['competitors'][0]['homeAway'] == 'home' else event['competitions'][0]['competitors'][1]
     awayData = event['competitions'][0]['competitors'][0] if event['competitions'][0]['competitors'][0]['homeAway'] == 'away' else event['competitions'][0]['competitors'][1]
     return {
+        'id': event['id'],
         'status': event['status']['type']['name'],
         'detail': getDetail(event['status']['type']['name'], event['status']['type']['detail']),
         'shortDetail': event['status']['type']['shortDetail'],
