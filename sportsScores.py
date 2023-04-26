@@ -36,7 +36,7 @@ def formatGameData(event):
             'runs': homeData['score'],
             'hits': homeData['hits'],
             'errors': homeData['errors'],
-            'linescore': getLineScore(homeData)
+            'linescore': getLineScore(event, homeData)
         },
         'awayData': {
             'teamLocation': awayData['team']['location'],
@@ -47,7 +47,7 @@ def formatGameData(event):
             'runs': awayData['score'],
             'hits': awayData['hits'],
             'errors': awayData['errors'],
-            'linescore': getLineScore(awayData)
+            'linescore': getLineScore(event, awayData)
         }
     }
 
@@ -66,9 +66,11 @@ def getRecord(records):
             rec = record['summary']
     return rec
 
-def getLineScore(teamData):
+def getLineScore(event, teamData):
     linescore = ['-','-','-','-','-','-','-','-','-']
     if 'linescores' in teamData:
         for inning in range(len(teamData['linescores'])):
             linescore[inning] = int(teamData['linescores'][inning]['value'])
+        if event['status']['type']['name'] == 'STATUS_FINAL' and len(teamData['linescores']) == 8:
+            linescore[-1] = 'X'
     return linescore
