@@ -109,11 +109,63 @@
 
         {% for game in data %}
         <!-- Modal -->
-		<div class="modal fade" id="gameDetailsModal{{game.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="gameDetailsModal{{game.id}}" tabindex="-1" aria-labelledby=modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <h5 class="modal-title" id="exampleModalLabel">{{game.awayData.teamLocation}} {{game.awayData.teamName}} at {{game.homeData.teamLocation}} {{game.homeData.teamName}}</h5>
+                        <div class="row">
+                            <div>
+                                <h5 class="modal-title" id="modalLabel">{{game.awayData.teamLocation}} {{game.awayData.teamName}} at {{game.homeData.teamLocation}} {{game.homeData.teamName}}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            {% for inning in game.awayData.linescore %}
+                                            <th>{{ loop.index }}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            {% for inning in game.awayData.linescore %}
+                                            <th>{{inning}}</th>
+                                            {% endfor %}
+                                        </tr>
+                                        <tr>
+                                            {% for inning in game.homeData.linescore %}
+                                            <th>{{inning}}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>R</th>
+                                            <th>H</th>
+                                            <th>E</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>{{game.awayData.runs}}</th>
+                                            <th>{{game.awayData.hits}}</th>
+                                            <th>{{game.awayData.errors}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th>{{game.homeData.runs}}</th>
+                                            <th>{{game.homeData.hits}}</th>
+                                            <th>{{game.homeData.errors}}</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
