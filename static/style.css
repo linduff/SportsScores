@@ -12,3 +12,14 @@
 .table>tbody>tr>th {
   border-bottom: none;
 }
+
+.accordion>.accordion-item>.accordion-header>.accordion-button {
+  background-color:#FFF; 
+  color: #000; 
+  outline: none !important; 
+  box-shadow: none;
+}
+
+.accordion>.accordion-item>.accordion-header>.accordion-button::after {
+  content: none;
+}
