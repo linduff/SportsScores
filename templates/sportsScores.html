@@ -51,7 +51,7 @@
             <div class="accordion-body">
                 <div class="container">
                     <div class="row">
-                        {% for game in data %}
+                        {% for game in mlb_data %}
                         <div class="col-sm-6 col-lg-4 mb-4">
                             <div class="card">
                                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameDetailsModal{{game.id}}">
@@ -97,12 +97,12 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <th>{{game.awayData.runs}}</th>
+                                                            <th>{{game.awayData.score}}</th>
                                                             <th>{{game.awayData.hits}}</th>
                                                             <th>{{game.awayData.errors}}</th>
                                                         </tr>
                                                         <tr>
-                                                            <th>{{game.homeData.runs}}</th>
+                                                            <th>{{game.homeData.score}}</th>
                                                             <th>{{game.homeData.hits}}</th>
                                                             <th>{{game.homeData.errors}}</th>
                                                         </tr>
@@ -124,12 +124,12 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <th>{{game.awayData.runs}}</th>
+                                                            <th>{{game.awayData.score}}</th>
                                                             <th>{{game.awayData.hits}}</th>
                                                             <th>{{game.awayData.errors}}</th>
                                                         </tr>
                                                         <tr>
-                                                            <th>{{game.homeData.runs}}</th>
+                                                            <th>{{game.homeData.score}}</th>
                                                             <th>{{game.homeData.hits}}</th>
                                                             <th>{{game.homeData.errors}}</th>
                                                         </tr>
@@ -146,7 +146,7 @@
                         {% endfor %}
                     </div>
             
-                    {% for game in data %}
+                    {% for game in mlb_data %}
                     <!-- Modal -->
                     <div class="modal fade" id="gameDetailsModal{{game.id}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -197,12 +197,12 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <th>{{game.awayData.runs}}</th>
+                                                        <th>{{game.awayData.score}}</th>
                                                         <th>{{game.awayData.hits}}</th>
                                                         <th>{{game.awayData.errors}}</th>
                                                     </tr>
                                                     <tr>
-                                                        <th>{{game.homeData.runs}}</th>
+                                                        <th>{{game.homeData.score}}</th>
                                                         <th>{{game.homeData.hits}}</th>
                                                         <th>{{game.homeData.errors}}</th>
                                                     </tr>
@@ -228,7 +228,156 @@
           </h2>
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
             <div class="accordion-body">
-              NBA GAMES
+                <div class="container">
+                    <div class="row">
+                        {% for game in nba_data %}
+                        <div class="col-sm-6 col-lg-4 mb-4">
+                            <div class="card">
+                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameDetailsModal{{game.id}}">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img src="{{game.awayData.logo}}" alt="" class="team-image mt-1 mb-1">
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">{{game.awayData.teamName}}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img src="{{game.homeData.logo}}" alt="" class="team-image mt-1 mb-1">
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">{{game.homeData.teamName}}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% if game.status == 'STATUS_SCHEDULED' %}
+                                        <div class="card-body">
+                                            <h5 class="card-title  pt-4">{{game.detail}}</h5>
+                                        </div>
+                                        {% elif game.status == 'STATUS_IN_PROGRESS' %}
+                                        <div class="row">
+                                            <h5 class="col-md-6 pt-5">{{game.shortDetail}}</h5>
+                                            <div class="col-md-6">
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Score</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>{{game.awayData.score}}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>{{game.homeData.score}}</th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        {% elif game.status == 'STATUS_FINAL' %}
+                                        <div class="row">
+                                            <h5 class="col-md-6  pt-5">{{game.shortDetail}}</h5>
+                                            <div class="col-md-6">
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Score</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>{{game.awayData.score}}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>{{game.homeData.score}}</th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+            
+                    {% for game in nba_data %}
+                    <!-- Modal -->
+                    <div class="modal fade" id="gameDetailsModal{{game.id}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div>
+                                            <h5 class="modal-title" id="modalLabel">{{game.awayData.teamLocation}} {{game.awayData.teamName}} at {{game.homeData.teamLocation}} {{game.homeData.teamName}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        {% if game.status == 'STATUS_SCHEDULED' %}
+                                        <div class="col-md-12 pt-5">
+                                            <h5 class="text-center">{{game.detail}}</h5>
+                                        </div>
+                                        {% else %}
+                                        <div class="col-md-8">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        {% for period in game.awayData.linescore %}
+                                                        <th>{{ loop.index }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        {% for period in game.awayData.linescore %}
+                                                        <th>{{period}}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                    <tr>
+                                                        {% for period in game.homeData.linescore %}
+                                                        <th>{{period}}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>T</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>{{game.awayData.score}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>{{game.homeData.score}}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
           </div>
         </div>

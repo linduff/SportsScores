@@ -7,22 +7,28 @@ app = Flask(__name__)
 
 @app.route('/')
 def scores():
-    url = 'http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard'
-    response = urlopen(url)
-    data_json = json.loads(response.read())
-    formattedData = formatJsonMLB(data_json)
-    return render_template('sportsScores.html', data=formattedData)
+    mlb_url = 'http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=' + datetime.datetime.now().strftime("%Y%m%d")
+    mlb_response = urlopen(mlb_url)
+    mlb_data_json = json.loads(mlb_response.read())
+    formattedMLBData = formatJson(mlb_data_json, 'MLB')
 
-def formatJsonMLB(data_json):
+    nba_url = 'http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20230501'
+    nba_response = urlopen(nba_url)
+    nba_data_json = json.loads(nba_response.read())
+    formattedNBAData = formatJson(nba_data_json, 'NBA')
+
+    return render_template('sportsScores.html', mlb_data=formattedMLBData, nba_data=formattedNBAData)
+
+def formatJson(data_json, sport):
     data = []
     for event in data_json['events']:
-        data.append(formatGameData(event))
+        data.append(formatGameData(event, sport))
     return data
 
-def formatGameData(event):
+def formatGameData(event, sport):
     homeData = event['competitions'][0]['competitors'][0] if event['competitions'][0]['competitors'][0]['homeAway'] == 'home' else event['competitions'][0]['competitors'][1]
     awayData = event['competitions'][0]['competitors'][0] if event['competitions'][0]['competitors'][0]['homeAway'] == 'away' else event['competitions'][0]['competitors'][1]
-    return {
+    gameData = {
         'id': event['id'],
         'status': event['status']['type']['name'],
         'detail': getDetail(event['status']['type']['name'], event['status']['type']['detail']),
@@ -33,10 +39,8 @@ def formatGameData(event):
             'abbreviation': homeData['team']['abbreviation'],
             'record': getRecord(homeData['records']),
             'logo': homeData['team']['logo'],
-            'runs': homeData['score'],
-            'hits': homeData['hits'],
-            'errors': homeData['errors'],
-            'linescore': getLineScore(event, homeData)
+            'score': homeData['score'],
+            'linescore': getLineScore(event, homeData, sport)
         },
         'awayData': {
             'teamLocation': awayData['team']['location'],
@@ -44,12 +48,17 @@ def formatGameData(event):
             'abbreviation': awayData['team']['abbreviation'],
             'record': getRecord(awayData['records']),
             'logo': awayData['team']['logo'],
-            'runs': awayData['score'],
-            'hits': awayData['hits'],
-            'errors': awayData['errors'],
-            'linescore': getLineScore(event, awayData)
+            'score': awayData['score'],
+            'linescore': getLineScore(event, awayData, sport)
         }
     }
+
+    if sport == 'MLB':
+        gameData['homeData']['hits'] = homeData['hits']
+        gameData['homeData']['errors'] = homeData['errors']
+        gameData['awayData']['hits'] = awayData['hits']
+        gameData['awayData']['errors'] = awayData['errors']
+    return gameData
 
 def getDetail(status, dateTimeString):
     if status == 'STATUS_SCHEDULED':
@@ -66,11 +75,14 @@ def getRecord(records):
             rec = record['summary']
     return rec
 
-def getLineScore(event, teamData):
-    linescore = ['-','-','-','-','-','-','-','-','-']
+def getLineScore(event, teamData, sport):
+    if sport == 'MLB':
+        linescore = ['-','-','-','-','-','-','-','-','-']
+    elif sport == 'NBA':
+        linescore = ['-','-','-','-']
     if 'linescores' in teamData:
-        for inning in range(len(teamData['linescores'])):
-            linescore[inning] = int(teamData['linescores'][inning]['value'])
+        for period in range(len(teamData['linescores'])):
+            linescore[period] = int(teamData['linescores'][period]['value'])
         if event['status']['type']['name'] == 'STATUS_FINAL' and len(teamData['linescores']) == 8:
             linescore[-1] = 'X'
     return linescore
