@@ -12,12 +12,17 @@ def scores():
     mlb_data_json = json.loads(mlb_response.read())
     formattedMLBData = formatJson(mlb_data_json, 'MLB')
 
-    nba_url = 'http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20230501'
+    nba_url = 'http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=' + datetime.datetime.now().strftime("%Y%m%d")
     nba_response = urlopen(nba_url)
     nba_data_json = json.loads(nba_response.read())
     formattedNBAData = formatJson(nba_data_json, 'NBA')
 
-    return render_template('sportsScores.html', mlb_data=formattedMLBData, nba_data=formattedNBAData)
+    nhl_url = 'http://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=' + datetime.datetime.now().strftime("%Y%m%d")
+    nhl_response = urlopen(nhl_url)
+    nhl_data_json = json.loads(nhl_response.read())
+    formattedNHLData = formatJson(nhl_data_json, 'NHL')
+
+    return render_template('sportsScores.html', mlb_data=formattedMLBData, nba_data=formattedNBAData, nhl_data=formattedNHLData)
 
 def formatJson(data_json, sport):
     data = []
@@ -80,6 +85,8 @@ def getLineScore(event, teamData, sport):
         linescore = ['-','-','-','-','-','-','-','-','-']
     elif sport == 'NBA':
         linescore = ['-','-','-','-']
+    else:
+        linescore = ['-','-','-']
     if 'linescores' in teamData:
         for period in range(len(teamData['linescores'])):
             linescore[period] = int(teamData['linescores'][period]['value'])
